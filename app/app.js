@@ -1,75 +1,30 @@
-function sum(a, c) {
-    return a + c;
-}
+const display = document.querySelector("#display");
+const buttons = document.querySelectorAll("button");
 
-
-function minus(a, c) {
-    return a - c;
-}
-
-function multiply(a, c) {
-    return a * c;
-}
-
-
-function division(a, c) {
-    return a / c;
-}
-
-const operation = {
-    sum: '+',
-    minus: '-',
-    multiply: '*',
-    division: '/',
-}
-
-function calculate({a, c, operation}) {
-    let result;
-
-
-    switch (operation) {
-
-        case operation.sum:
-            result = sum(a, c);
-            break;
-
-
-
-        case operation.minus:
-            result = minus(a, c);
-            break;
-
-
-        case operation.multiply:
-            result = multiply(a, c);
-            break;
-
-
-        case operation.division:
-            result = division(a, c);
-            break;
-
-    }
-
-    return result;
-}
-const inputANode = document.querySelector('.js-input-a');
-const inputCNode = document.querySelector('.js-input-c');
-const selectNode = document.querySelector('.js-select-operation')
-const btnResultNode = document.querySelector('.js-input-result');
-const outputNode = document.querySelector('.js-output');
-
-btnResultNode.addEventListener('click', function (){
-    const a = Number(inputANode.value);
-    const c = Number(inputCNode.value);
-    const operation = selectNode.value;
-
-    const  result = calculate({
-        a,
-        c,
-        operation
-
-    });
-    console.log(result);
-    outputNode.innerHTML
+buttons.forEach((item) => {
+    item.onclick = () => {
+        if (item.id == "clear") {
+            display.innerText = "";
+        } else if (item.id == "backspace") {
+            let string = display.innerText.toString();
+            display.innerText = string(0, string.length - 1);
+        } else if (display.innerText != "" && item.id == "equal") {
+            display.innerText = eval(display.innerText);
+        } else if (display.innerText == "" && item.id == "equal") {
+            display.innerText = "Empty!";
+            setTimeout(() => (display.innerText = ""), 2000);
+        } else {
+            display.innerText += item.id;
+        }
+    };
 });
+
+const themeToggleBtn = document.querySelector(".theme-toggler");
+const calculator = document.querySelector(".calculator");
+const toggleIcon = document.querySelector(".toggler-icon");
+let isDark = true;
+themeToggleBtn.onclick = () => {
+    calculator.classList.toggle("dark");
+    themeToggleBtn.classList.toggle("active");
+    isDark = !isDark;
+};
